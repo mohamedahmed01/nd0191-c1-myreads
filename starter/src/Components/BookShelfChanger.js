@@ -1,28 +1,17 @@
-const BookShelfChanger = ({ book, shelf }) => {
+const BookShelfChanger = ({ book, shelf, updateBook }) => {
+  const SelectChange = (event) => {
+    updateBook(book, event.target.value);
+  };
   return (
     <div className='book-shelf-changer'>
-      <select>
+      <select value={shelf} onChange={SelectChange}>
         <option value='none' disabled>
           Move to...
         </option>
-        <option
-          value='currentlyReading'
-          selected={'currentlyReading' === shelf ? 'selected' : null}
-        >
-          Currently Reading
-        </option>
-        <option
-          value='wantToRead'
-          selected={'wantToRead' === shelf ? 'selected' : null}
-        >
-          Want to Read
-        </option>
-        <option value='read' selected={'read' === shelf ? 'selected' : null}>
-          Read
-        </option>
-        <option value='none' selected={'none' === shelf ? 'selected' : null}>
-          None
-        </option>
+        <option value='currentlyReading'>Currently Reading</option>
+        <option value='wantToRead'>Want to Read</option>
+        <option value='read'>Read</option>
+        <option value='none'>None</option>
       </select>
     </div>
   );

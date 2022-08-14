@@ -1,9 +1,7 @@
 import SearchPageButton from './SearchPageButton';
 import Shelf from './Shelf';
-import * as BooksApi from '../BooksAPI';
-import { useState, useEffect } from 'react';
 
-const Library = () => {
+const Library = ({ books, updateBook }) => {
   const shelfStatus = {
     currentlyReading: 'Currently Reading',
     wantToRead: 'Want to Read',
@@ -11,14 +9,6 @@ const Library = () => {
     none: 'None',
   };
 
-  const [books, setBooks] = useState([]);
-  useEffect(() => {
-    const getBooks = async () => {
-      const res = await BooksApi.getAll();
-      setBooks(res);
-    };
-    getBooks();
-  }, []);
   return (
     <div className='list-books'>
       <div className='list-books-title'>
@@ -29,9 +19,11 @@ const Library = () => {
           {Object.keys(shelfStatus).map((key) => {
             return (
               <Shelf
+                key={key}
                 books={books.filter((book) => book.shelf === key)}
                 shelfStatus={key}
                 shelfLabel={shelfStatus[key]}
+                updateBook={(book, shelf) => updateBook(book, shelf)}
               ></Shelf>
             );
           })}

@@ -1,6 +1,6 @@
 import BookShelfChanger from './BookShelfChanger';
 
-const Book = ({ book, shelf }) => {
+const Book = ({ book, shelf, updateBook }) => {
   const url = 'url(' + book.imageLinks.smallThumbnail + ')';
   return (
     <li key={book.id}>
@@ -14,7 +14,12 @@ const Book = ({ book, shelf }) => {
               backgroundImage: url,
             }}
           ></div>
-          <BookShelfChanger book={book} shelf={shelf}></BookShelfChanger>
+          <BookShelfChanger
+            key={shelf}
+            book={book}
+            shelf={shelf}
+            updateBook={updateBook}
+          ></BookShelfChanger>
         </div>
         <div className='book-title'>{book.title}</div>
         {book.authors.map((author) => {
