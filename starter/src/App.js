@@ -3,9 +3,9 @@ import SearchPage from './Components/SearchPage';
 import Library from './Components/Library';
 import * as BooksApi from './BooksAPI';
 import { React, useState, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
-  const [showSearchPage, setShowSearchpage] = useState(false);
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
@@ -27,11 +27,20 @@ function App() {
 
   return (
     <div className='app'>
-      {showSearchPage ? (
-        <SearchPage></SearchPage>
-      ) : (
-        <Library books={books} updateBook={updateBook}></Library>
-      )}
+      <Routes>
+        <Route
+          exact
+          path='/'
+          element={<Library books={books} updateBook={updateBook}></Library>}
+        />
+        <Route
+          exact
+          path='/search'
+          element={
+            <SearchPage userBooks={books} updateBook={updateBook}></SearchPage>
+          }
+        />
+      </Routes>
     </div>
   );
 }

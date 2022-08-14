@@ -1,11 +1,9 @@
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const SearchPageButton = () => {
-  const [showSearchPage, setShowSearchpage] = useState(false);
-
   return (
     <div className='open-search'>
-      <a onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</a>
+      <Link to='/search'>Add a book</Link>
     </div>
   );
 };
