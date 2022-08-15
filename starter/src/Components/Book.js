@@ -26,9 +26,10 @@ const Book = ({ book, shelf, updateBook }) => {
           ></BookShelfChanger>
         </div>
         <div className='book-title'>{book.title}</div>
-        {book.authors.map((author) => {
-          return <div className='book-authors'>{author}</div>;
-        })}
+        {book.authors &&
+          book.authors.map((author) => {
+            return <div className='book-authors'>{author}</div>;
+          })}
       </div>
     </li>
   );

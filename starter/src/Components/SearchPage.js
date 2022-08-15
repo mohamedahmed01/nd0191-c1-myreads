@@ -8,6 +8,7 @@ import { debounce } from 'lodash';
 
 const SearchPage = ({ userBooks, updateBook }) => {
   const [books, setBooks] = useState([]);
+  const [noSearchResults, setNoSearchResults] = useState(false);
 
   const search = async (query) => {
     const res = await BooksApi.search(query, 20);
@@ -20,8 +21,10 @@ const SearchPage = ({ userBooks, updateBook }) => {
       );
 
       Utils.mergeByProperty(res, filteredUserBooks, 'id');
+      setNoSearchResults(false);
       setBooks(res);
     } else {
+      setNoSearchResults(true);
       setBooks([]);
     }
   };
@@ -54,6 +57,9 @@ const SearchPage = ({ userBooks, updateBook }) => {
         </div>
       </div>
       <div className='search-books-results'>
+        {noSearchResults && (
+          <h2>Currently there no Books with that search term</h2>
+        )}
         <ol className='books-grid'>
           {books.map((book) => {
             return (
