@@ -6,8 +6,8 @@ export const mergeByProperty = (target, source, prop) => {
     let targetElement = target.find((targetElement) => {
       return sourceElement[prop] === targetElement[prop];
     });
-    targetElement
+    const res = targetElement
       ? Object.assign(targetElement, sourceElement)
-      : target.push(sourceElement);
+      : null;
   });
 };

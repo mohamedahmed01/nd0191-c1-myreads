@@ -13,14 +13,7 @@ const SearchPage = ({ userBooks, updateBook }) => {
   const search = async (query) => {
     const res = await BooksApi.search(query, 20);
     if (!res.error) {
-      const filteredUserBooks = userBooks.filter(
-        (book) =>
-          book.title.includes(query) ||
-          book.authors.includes(query) ||
-          JSON.stringify(book.industryIdentifiers).includes(query)
-      );
-
-      Utils.mergeByProperty(res, filteredUserBooks, 'id');
+      Utils.mergeByProperty(res, userBooks, 'id');
       setNoSearchResults(false);
       setBooks(res);
     } else {
