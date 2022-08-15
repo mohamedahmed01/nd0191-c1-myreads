@@ -1,7 +1,11 @@
 import BookShelfChanger from './BookShelfChanger';
+import DefaultImage from '../img/default.png';
+import PropTypes from 'prop-types';
 
 const Book = ({ book, shelf, updateBook }) => {
-  const url = 'url(' + book.imageLinks.smallThumbnail + ')';
+  const image = book.imageLinks?.smallThumbnail
+    ? 'url(' + book.imageLinks.smallThumbnail + ')'
+    : 'url(' + DefaultImage + ')';
   return (
     <li key={book.id}>
       <div className='book'>
@@ -11,7 +15,7 @@ const Book = ({ book, shelf, updateBook }) => {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: url,
+              backgroundImage: image,
             }}
           ></div>
           <BookShelfChanger
@@ -29,5 +33,9 @@ const Book = ({ book, shelf, updateBook }) => {
     </li>
   );
 };
-
+Book.propTypes = {
+  book: PropTypes.object.isRequired,
+  shelf: PropTypes.string.isRequired,
+  updateBook: PropTypes.func.isRequired,
+};
 export default Book;

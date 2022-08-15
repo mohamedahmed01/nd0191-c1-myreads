@@ -17,12 +17,10 @@ function App() {
   }, []);
 
   const updateBook = (book, shelf) => {
-    const update = async () => {
-      await BooksApi.update(book, shelf);
-      const res = await BooksApi.getAll();
-      setBooks(res);
-    };
-    update();
+    book.shelf = shelf;
+    BooksApi.update(book, shelf).then(() => {
+      setBooks([...books.filter((b) => b.id !== book.id), book]);
+    });
   };
 
   return (

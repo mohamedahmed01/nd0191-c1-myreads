@@ -1,5 +1,6 @@
 import SearchPageButton from './SearchPageButton';
 import Shelf from './Shelf';
+import PropTypes from 'prop-types';
 
 const Library = ({ books, updateBook }) => {
   const shelfStatus = {
@@ -32,5 +33,8 @@ const Library = ({ books, updateBook }) => {
     </div>
   );
 };
-
+Library.propTypes = {
+  books: PropTypes.array.isRequired,
+  updateBook: PropTypes.func.isRequired,
+};
 export default Library;

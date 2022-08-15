@@ -1,30 +1,42 @@
 import { Link } from 'react-router-dom';
 import * as BooksApi from '../BooksAPI';
 import Book from './Book';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import * as Utils from '../Utils';
+import PropTypes from 'prop-types';
+import { debounce } from 'lodash';
 
 const SearchPage = ({ userBooks, updateBook }) => {
   const [books, setBooks] = useState([]);
 
-  const onChange = (event) => {
-    const query = event.target.value.length;
-    if (query >= 3) {
-      const search = async () => {
-        const res = await BooksApi.search(event.target.value, 20);
-        if (!res.error) {
-          const filteredUserBooks = userBooks.filter(
-            (book) =>
-              book.title.includes(query) ||
-              book.authors.includes(query) ||
-              JSON.stringify(book.industryIdentifiers).includes(query)
-          );
+  const search = async (query) => {
+    const res = await BooksApi.search(query, 20);
+    if (!res.error) {
+      const filteredUserBooks = userBooks.filter(
+        (book) =>
+          book.title.includes(query) ||
+          book.authors.includes(query) ||
+          JSON.stringify(book.industryIdentifiers).includes(query)
+      );
 
-          Utils.mergeByProperty(res, filteredUserBooks, 'id');
-          setBooks(res);
-        }
-      };
-      search();
+      Utils.mergeByProperty(res, filteredUserBooks, 'id');
+      setBooks(res);
+    } else {
+      setBooks([]);
+    }
+  };
+
+  const debouncedSearch = useCallback(
+    debounce((query) => search(query), 500),
+    []
+  );
+
+  const onChange = (event) => {
+    const query = event.target.value;
+    if (query === '') {
+      setBooks([]);
+    } else if (query.length >= 3) {
+      debouncedSearch(query);
     }
   };
   return (
@@ -58,4 +70,8 @@ const SearchPage = ({ userBooks, updateBook }) => {
   );
 };
 
+SearchPage.propTypes = {
+  userBooks: PropTypes.array.isRequired,
+  updateBook: PropTypes.func.isRequired,
+};
 export default SearchPage;
